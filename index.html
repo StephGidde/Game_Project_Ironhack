@@ -12,16 +12,23 @@
 
     <script type="text/javascript" src="script.js"></script>
     <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <title>Game</title>
   </head>
   <body>
     <div class="game-intro">
-      <img src="./images/logo.png" alt="" class="logo-img" /> <br />
+      <img src="./images/cat.png" alt="" class="logo-img" /> <br />
       <button id="start-button">StartGame</button>
       <p>Use the left and right arrow to control the car!</p>
       <img src="./images/arrows.png" alt="" class="arrows-img" />
     </div>
-    <div id="game-board"></div>
-    <canvas id="game" width="500" height="600"></canvas>
+    <div id="game-board">
+      <canvas id="game" width="600" height="650"></canvas>
+    </div>
+    <div class="game-score"><p>Score:</p></div>
+
+    <!-- Hier kommt die Musik rein -->
+    <audio id="music" loop src="music/happy_adveture.mp3" autoplay></audio>
+    <audio id="yay" src="music/powerup6.wav"></audio>
+    <audio id="huh" src="music/huh.wav"></audio>
   </body>
 </html>
