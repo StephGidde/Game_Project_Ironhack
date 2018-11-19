@@ -44,6 +44,23 @@ window.onload = function() {
     }
   };
 
+  // A MonsterFood item adds or removes score points when the monster touches it
+  class MonsterFood {
+    constructor(height, width, image, points) {
+      this.x = Math.floor(Math.random() * canvas.width - 100);
+      this.y = Math.floor(Math.random() * -100);
+      this.counted = false;
+      this.height = height;
+      this.width  = width;
+      this.points = points;
+      this.image  = image;
+
+      this.is_healthy = function() {
+        return this.points < 0;
+      };
+    }
+  }
+
   //create candy
   class Candy {
     constructor() {
@@ -141,16 +158,16 @@ window.onload = function() {
       // );
     }
     if (frameCounter % 200 == 0) {
-      var carrot = new Carrot();
-      carrotArray.push(carrot);
+      carrotArray.push(new MonsterFood(50, 80, imgCarrot, -1));
     }
     for (var i = 0; i < carrotArray.length; i++) {
+      var carrot = carrotArray[i];
       ctx.drawImage(
-        imgCarrot,
-        carrotArray[i].x,
-        (carrotArray[i].y += 2),
-        carrotArray[i].height,
-        carrotArray[i].width
+        carrot.image,
+        carrot.x,
+        (carrot.y += 2),
+        carrot.height,
+        carrot.width
       );
       // ctx.strokeRect(
       //   carrotArray[i].x,
@@ -241,7 +258,8 @@ window.onload = function() {
         );
         // ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
         if (!carrot.counted) {
-          score = score - 1;
+          score += carrot.points;
+          // score = score + carrot.points;
           carrot.counted = true;
           huh.play();
         }
