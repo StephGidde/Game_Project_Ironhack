@@ -5,6 +5,7 @@ window.onload = function() {
   var candyArray = []; // mehrere Arrays für jeweils candy, apple und carrot
   var carrotArray = [];
   var appleArray = [];
+  var heartsArray = [];
   var score = 0;
 
   //images
@@ -44,6 +45,28 @@ window.onload = function() {
     }
   };
 
+  // class MonsterFood {
+  //   constructor(height, width, image, kind, points) {
+  //     this.x = Math.floor(Math.random() * canvas.width - 100);
+  //     this.y = Math.floor(Math.random() * -100);
+  //     this.counted = false;
+  //     this.height = height;
+  //     this.width = width;
+  //     this.points = points;
+  //     this.image = image;
+  //     this.kind = kind;
+  //     this.is_healthy = function() {
+  //       return this.points < 0;
+  //     };
+  //   }
+  // }
+  //create heart
+  class Heart {
+    constructor() {
+      (this.x = 360), (this.y = 15), (this.width = 30), (this.height = 30);
+    }
+  }
+  var heart = new Heart();
   //create candy
   class Candy {
     constructor() {
@@ -81,10 +104,25 @@ window.onload = function() {
   }
 
   document.getElementById("start-button").onclick = function() {
-    // TO DO: Spielername + Charakter auswählen
-
+    $("#prompt-box").show();
+  };
+  document.getElementById("submit").onclick = function() {
+    var playerName = $("#playerNameInput").val();
+    // var playerCharacter = prompt ("Please choose a character")//NEU
+    if (playerName != 0) {
+      $("#player-name").html(playerName);
+      $("#start-button").hide();
+      $("#prompt-box").hide();
+    } else {
+      alert("You need to type your name!");
+      console.log("bla");
+    }
     ctx.drawImage(img, monster.x, monster.y, monster.height, monster.width);
-    ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
+    for (var i = 0; i < 5; i++) {
+      heartsArray.push(heart);
+
+      console.log(heartsArray);
+    }
     startGame();
     window.requestAnimationFrame(updateCanvas);
   };
@@ -112,13 +150,22 @@ window.onload = function() {
   function updateCanvas() {
     ctx.clearRect(0, 0, 600, 650);
     ctx.drawImage(img, monster.x, monster.y, monster.height, monster.width);
+    for (var i = 0; i < heartsArray.length; i++) {
+      ctx.drawImage(
+        imgHeart,
+        (heart.x += 40),
+        heart.y,
+        heart.height,
+        heart.width
+      );
+    }
     //ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
     //Hatte ich eingefügt als Box um die Candy, Apple, Carrots, um zu sehen wann das Monster getroffen wird
-    ctx.drawImage(imgHeart, 400, 15, 30, 30);
-    ctx.drawImage(imgHeart, 440, 15, 30, 30);
-    ctx.drawImage(imgHeart, 480, 15, 30, 30);
-    ctx.drawImage(imgHeart, 520, 15, 30, 30);
-    ctx.drawImage(imgHeart, 560, 15, 30, 30);
+    // ctx.drawImage(imgHeart, 400, 15, 30, 30);
+    // ctx.drawImage(imgHeart, 440, 15, 30, 30);
+    // ctx.drawImage(imgHeart, 480, 15, 30, 30);
+    // ctx.drawImage(imgHeart, 520, 15, 30, 30);
+    // ctx.drawImage(imgHeart, 560, 15, 30, 30);
     frameCounter++;
 
     if (frameCounter % 130 == 0) {
@@ -184,7 +231,7 @@ window.onload = function() {
     crashCandy();
     crashApple();
     crashCarrot();
-    $(".game-score").text(score);
+    $("#score").text(score);
     window.requestAnimationFrame(updateCanvas);
   }
 
@@ -193,6 +240,7 @@ window.onload = function() {
       var candy = candyArray[i];
       if (intersect(monster, candy)) {
         ctx.drawImage(img, monster.x, monster.y, monster.height, monster.width);
+        candyArray.splice(i, 1);
 
         // ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
         if (!candy.counted) {
@@ -216,6 +264,8 @@ window.onload = function() {
           monster.height,
           monster.width
         );
+        appleArray.splice(i, 1);
+        heartsArray.splice(3, 1);
         // ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
         //huh.play();
         if (!apple.counted) {
@@ -239,6 +289,7 @@ window.onload = function() {
           monster.height,
           monster.width
         );
+        carrotArray.splice(i, 1);
         // ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
         if (!carrot.counted) {
           score = score - 1;

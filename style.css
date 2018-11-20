@@ -1,28 +1,24 @@
 body {
   padding: 0;
   text-align: center;
-  background-color: #c48bff;
-  /*background-image: url("https://dumielauxepices.net/sites/default/files/drawn-wallpaper-candy-585470-9537427.jpg");*/
+  background-image: url("images/CV_BG_01.png");
+  font-family: "Fira Sans", sans-serif;
 }
-
 .game-intro {
   float: left;
   width: 20%;
 }
-
 .game-intro p {
   font-size: 18px;
-  font-family: "Verdana";
+  color: white;
 }
-
 .logo-img {
   width: 250px;
+  padding: 50px;
 }
-
 .arrows-img {
   width: 150px;
 }
-
 body button {
   font-size: 30px;
   background-color: #870007;
@@ -33,21 +29,67 @@ body button {
   border-radius: 5px;
   margin-bottom: 20px;
 }
-
 #game-board {
   text-align: center;
   float: left;
   width: 60%;
   height: 500px;
+  z-index: 1;
+  position: relative;
 }
-
 #game {
-  border: 2px solid purple;
+  border: 5px solid purple;
+  opacity: 0.8;
+  background-color: white;
+  z-index: 2;
   background-image: url("images/CV_BG_01.png");
   background-size: 800px 650px;
 }
-
 .game-score {
   float: left;
   width: 20%;
+}
+#player-name {
+  font-size: 20px;
+  padding: 10px;
+  color: white;
+}
+h1 {
+  font-size: 80px;
+  font-family: "Allerta Stencil", sans-serif;
+}
+nav {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+.score {
+  width: 80%;
+  height: 100px;
+  border-color: white;
+  background-color: white;
+  font-size: 80px;
+  text-align: center;
+  font-weight: lighter;
+  padding: 5px auto;
+}
+#your-score {
+  font-size: 30px;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+#prompt-box {
+  display: inline-block;
+  z-index: 3;
+  /* background-color: white; */
+
+  position: absolute;
+  margin-top: 30%;
+  display: none;
+}
+input {
+  font-family: "Fira Sans", sans-serif;
+}
+
+#start-button {
+  display: inherit;
 }
