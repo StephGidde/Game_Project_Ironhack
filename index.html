@@ -19,23 +19,35 @@
     <link rel="stylesheet" href="style.css" />
     <title>Game</title>
   </head>
+
   <body>
     <nav><h1>Happy Monster</h1></nav>
     <div class="game-intro">
-      <img src="./images/cat.png" alt="" class="logo-img" />
+      <img id="player-character" src=./images/CV_Vampi_Happy_01.png alt=""
+      class="logo-img" />
+
       <button id="start-button" class="btn-info">Start Game</button>
       <span id="player-name"></span> <span id="player-character"></span>
       <p>Use the left and right arrow to catch the candy!</p>
-      <img src="./images/arrows.png" alt="" class="arrows-img" />
+      <img src=./images/arrows.png alt="" class="arrows-img" />
     </div>
     <div id="game-board">
       <div id="prompt-box" class="input-group mb-3 alert alert-info">
-        <span>What is your Name?</span><br />
+        <span style="font-size:40px">What is your Name?</span><br />
         <input id="playerNameInput" type="text" /><br />
-        <span>Choose a character</span><br />
-        <input type="radio" name="character" value="Andrew" /> Andrew<br />
-        <input type="radio" name="character" value="Hendrik" /> Hendrik<br />
-        <input type="radio" name="character" value="Jen" /> Jen<br />
+        <span style="font-size:40px">Choose a character</span><br />
+
+        <label class="characInput">
+          <input type="radio" name="character" value="Andrew" /> Andrew <img
+          src=images/CV_Vampi_Happy_01.png width=60px height=80px>
+        </label>
+        <label class="characInput">
+          <input type="radio" name="character" value="Hendrik" /> Hendrik <img
+          src=images/Vampi_Red_Happy.png width=60px height=80px>
+        </label>
+
+        <input class="characInput" type="radio" name="character" value="Jen" />
+        Jen<img src=images/Vampi_Green_Happy.png width=60px height=80px><br />
         <button
           id="submit"
           class="btn btn-outline-secondary"
@@ -46,15 +58,21 @@
         </button>
       </div>
       <canvas id="game" width="600" height="650"></canvas>
+      <!-- width="600" height="650" -->
     </div>
     <div class="game-score">
       <span id="your-score">Your Score:</span>
       <div class="score badge badge-light"><span id="score"></span></div>
     </div>
+    <div class="divAddLife">
+      <span id="addLife">Catch the tiny monster for an additional life!</span>
+    </div>
+
     <!-- Hier kommt die Musik rein -->
     <audio id="music" loop src="music/happy_adveture.mp3" autoplay></audio>
     <audio id="yay" src="music/powerup6.wav"></audio>
-    <audio id="won" src="music/gamewon.wav"></audio>
+    <audio id="catchspecial" src="music/special.wav"></audio>
     <audio id="huh" src="music/huh.wav"></audio>
+    <audio id="gameover" src="music/pixie-go.mp3"></audio>
   </body>
 </html>

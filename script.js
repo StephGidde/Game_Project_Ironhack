@@ -1,4 +1,5 @@
 window.onload = function() {
+  $("#addLife").hide();
   var canvas = $("#game")[0];
   var ctx = canvas.getContext("2d");
   var frameCounter = 0;
@@ -6,14 +7,48 @@ window.onload = function() {
   var carrotArray = [];
   var appleArray = [];
   var heartsArray = [];
+  var specialArray = [];
   var score = 0;
 
+  function gameOver() {
+    ctx.font = "100px Verdana";
+    // Create gradient
+    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop("0", "magenta");
+    gradient.addColorStop("0.5", "blue");
+    gradient.addColorStop("1.0", "red");
+    // Fill with gradient
+    ctx.fillStyle = gradient;
+    ctx.fillText("Game Over", 10, canvas.height / 2);
+    gameover.play();
+    music.pause();
+    // window.cancelAnimationFrame(updateCanvas);
+  }
+
+  function gameWon() {
+    ctx.font = "100px Verdana";
+    // Create gradient
+    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop("0", "magenta");
+    gradient.addColorStop("0.5", "blue");
+    gradient.addColorStop("1.0", "red");
+    // Fill with gradient
+    ctx.fillStyle = gradient;
+    ctx.fillText("You Win!", 10, canvas.height / 2);
+    catchspecial.play();
+    music.pause();
+    // window.cancelAnimationFrame(updateCanvas);
+  }
+
   //images
-  var img = new Image(); // Create new img element
-  img.src = "images/CV_Vampi_01.png"; // Set source path
+  var happyMonster = new Image(); // Create new img element
+  happyMonster.src = 0;
+  // "images/CV_Vampi_01.png"; // Set source path
+  var img = happyMonster; // happymonster
 
   var imgSad = new Image();
-  imgSad.src = "images/CV_Vampi_Sad_01.png";
+  imgSad.src = 0;
+  // "images/CV_Vampi_Sad_01.png";
 
   var imgCandy = new Image(); //jeweils die images für candy, apple und carrot
   imgCandy.src = "images/CV_Cupcake_01.png";
@@ -22,25 +57,44 @@ window.onload = function() {
   imgCarrot.src = "images/CV_Carrot_02.png";
 
   var imgApple = new Image();
-  imgApple.src = "images/CV_Apple_01.png";
+  imgApple.src = "images/CV_Apple_02.png";
 
   var imgHeart = new Image();
   imgHeart.src = "images/Heart_01.png";
 
+  var imgSpecial = new Image();
+  imgSpecial.src = 0;
+
+  var imgBoom1 = new Image();
+  imgBoom1 = "images/Boom_00000.png";
+
+  var imgBoom2 = new Image();
+  imgBoom1 = "images/Boom_00001.png";
+
+  var imgBoom3 = new Image();
+  imgBoom1 = "images/Boom_00002.png";
+
+  var imgBoom4 = new Image();
+  imgBoom1 = "images/Boom_00003.png";
+
+  var imgBoom5 = new Image();
+  imgBoom1 = "images/Boom_00004.png";
+
   //create monster
   var monster = {
+    lives: 5,
     x: 260,
     y: 490,
     height: 97,
     width: 138,
     moveLeft: function() {
       if (this.x > 0) {
-        this.x -= 10;
+        this.x -= 20;
       }
     },
     moveRight: function() {
       if (this.x < 500) {
-        this.x += 10;
+        this.x += 20;
       }
     }
   };
@@ -103,28 +157,60 @@ window.onload = function() {
     }
   }
 
+  //create Special
+  class Special {
+    constructor() {
+      this.x = Math.floor(Math.random() * canvas.width - 100); // -100 (Breite des Bildes) weil sonst außerhalb des Bildrandes
+      this.y = Math.floor(Math.random() * -100);
+      this.height = 32;
+      this.width = 46;
+      this.counted = false;
+    }
+  }
+
   document.getElementById("start-button").onclick = function() {
     $("#prompt-box").show();
   };
+  //pushes the character into the html and canvas
+  function selectedCharacter() {
+    var character = $(":radio");
+    var i;
+    for (i = 0; i < character.length; i++) {
+      if (character[i].checked) {
+        var playerCharacter = $(character[i])
+          .next()
+          .attr("src");
+        $("#player-character").attr("src", playerCharacter);
+        //happy monster on canvas
+        happyMonster.src = $(character[i])
+          .next()
+          .attr("src");
+        //sad monster on canvas
+        imgSad.src = $(character[i])
+          .next()
+          .attr("src")
+          .replace("Happy", "Sad");
+        //special monster on canvas
+        imgSpecial.src = $(character[i])
+          .next()
+          .attr("src");
+      }
+    }
+  }
   document.getElementById("submit").onclick = function() {
     var playerName = $("#playerNameInput").val();
-    // var playerCharacter = prompt ("Please choose a character")//NEU
+    selectedCharacter();
     if (playerName != 0) {
       $("#player-name").html(playerName);
+
       $("#start-button").hide();
       $("#prompt-box").hide();
+      startGame();
+
+      window.requestAnimationFrame(updateCanvas);
     } else {
       alert("You need to type your name!");
-      console.log("bla");
     }
-    ctx.drawImage(img, monster.x, monster.y, monster.height, monster.width);
-    for (var i = 0; i < 5; i++) {
-      heartsArray.push(heart);
-
-      console.log(heartsArray);
-    }
-    startGame();
-    window.requestAnimationFrame(updateCanvas);
   };
 
   function startGame() {
@@ -140,32 +226,30 @@ window.onload = function() {
           break;
       }
     };
+    var live = new Heart();
+    for (let i = 0; i < monster.lives; i++) {
+      heartsArray.push(live);
+    }
     playMusic(); //hier wird die Musik bei Spielstart gestartet - ist im HTML Code drin
   }
   //Funktion um Music zu spielen
   function playMusic() {
     music.play();
   }
+  //Herzen zeichnen
+  var space;
+  function drawHearts() {
+    space = 0;
+    for (let i = 0; i < heartsArray.length; i++) {
+      ctx.drawImage(imgHeart, 400 + space, 15, 30, 30);
+      space += 40;
+    }
+  }
 
   function updateCanvas() {
     ctx.clearRect(0, 0, 600, 650);
     ctx.drawImage(img, monster.x, monster.y, monster.height, monster.width);
-    for (var i = 0; i < heartsArray.length; i++) {
-      ctx.drawImage(
-        imgHeart,
-        (heart.x += 40),
-        heart.y,
-        heart.height,
-        heart.width
-      );
-    }
-    //ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
-    //Hatte ich eingefügt als Box um die Candy, Apple, Carrots, um zu sehen wann das Monster getroffen wird
-    // ctx.drawImage(imgHeart, 400, 15, 30, 30);
-    // ctx.drawImage(imgHeart, 440, 15, 30, 30);
-    // ctx.drawImage(imgHeart, 480, 15, 30, 30);
-    // ctx.drawImage(imgHeart, 520, 15, 30, 30);
-    // ctx.drawImage(imgHeart, 560, 15, 30, 30);
+    drawHearts();
     frameCounter++;
 
     if (frameCounter % 130 == 0) {
@@ -228,76 +312,137 @@ window.onload = function() {
       // );
     }
 
+    //hier wird Special eingefügt
+    if (frameCounter % 500 == 0) {
+      var special = new Special();
+      specialArray.push(special);
+      $("#addLife").show();
+    }
+    for (var i = 0; i < specialArray.length; i++) {
+      ctx.drawImage(
+        imgSpecial,
+        specialArray[i].x,
+        (specialArray[i].y += 2),
+        specialArray[i].height,
+        specialArray[i].width
+      );
+    }
+
     crashCandy();
     crashApple();
     crashCarrot();
+    crashSpecial();
     $("#score").text(score);
     window.requestAnimationFrame(updateCanvas);
   }
 
   function crashCandy() {
-    for (var i = 0; i < candyArray.length; i++) {
-      var candy = candyArray[i];
-      if (intersect(monster, candy)) {
-        ctx.drawImage(img, monster.x, monster.y, monster.height, monster.width);
-        candyArray.splice(i, 1);
-
-        // ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
-        if (!candy.counted) {
-          score = score + 1;
-          candy.counted = true;
-          yay.play(); // positiver Sound wird abgespielt wenn Monster candy bekommt
+    if (heartsArray.length > 0) {
+      for (var i = 0; i < candyArray.length; i++) {
+        var candy = candyArray[i];
+        if (intersect(monster, candy)) {
+          img = happyMonster;
+          candyArray.splice(i, 1);
+          if (!candy.counted) {
+            score = score + 1;
+            candy.counted = true;
+            yay.play(); // positiver Sound wird abgespielt wenn Monster candy bekommt
+          }
         }
+      }
+      if (heartsArray.length > 0 && score >= 50) {
+        ctx.clearRect(0, 0, 600, 650);
+        gameWon();
+        return score;
+      } else if (heartsArray.length <= 0) {
+        ctx.clearRect(0, 0, 600, 650);
+        gameOver();
+        return score;
+      }
+    }
+  }
+
+  function crashSpecial() {
+    if (heartsArray.length > 0) {
+      for (var i = 0; i < specialArray.length; i++) {
+        var special = specialArray[i];
+        if (intersect(monster, special)) {
+          img = happyMonster;
+          specialArray.splice(i, 1);
+          if (heartsArray.length < 6) {
+            heartsArray.push(imgHeart);
+          }
+          if (!special.counted) {
+            score = score + 3;
+            special.counted = true;
+            catchspecial.play(); // positiver Sound wird abgespielt wenn Monster candy bekommt
+          }
+        }
+      }
+      if (heartsArray.length > 0 && score >= 50) {
+        ctx.clearRect(0, 0, 600, 650);
+        gameWon();
+        return score;
+      } else if (heartsArray.length <= 0) {
+        ctx.clearRect(0, 0, 600, 650);
+        gameOver();
+        return score;
       }
     }
   }
 
   function crashApple() {
-    //var score = 0;
-    for (var i = 0; i < appleArray.length; i++) {
-      var apple = appleArray[i];
-      if (intersect(monster, apple)) {
-        ctx.drawImage(
-          imgSad,
-          monster.x,
-          monster.y,
-          monster.height,
-          monster.width
-        );
-        appleArray.splice(i, 1);
-        heartsArray.splice(3, 1);
-        // ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
-        //huh.play();
-        if (!apple.counted) {
-          score = score - 1;
-          apple.counted = true;
+    if (heartsArray.length > 0) {
+      for (var i = 0; i < appleArray.length; i++) {
+        var apple = appleArray[i];
+        if (intersect(monster, apple)) {
+          img = imgSad;
+          appleArray.splice(i, 1);
+          heartsArray.splice(0, 1);
+          // ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
+          //huh.play();
+          if (!apple.counted) {
+            score = score - 1;
+            apple.counted = true;
+          }
         }
-        //console.log(score);
       }
+    }
+    if (heartsArray.length > 0 && score >= 50) {
+      ctx.clearRect(0, 0, 600, 650);
+      gameWon();
+      return score;
+    } else if (heartsArray.length <= 0) {
+      ctx.clearRect(0, 0, 600, 650);
+      gameOver();
+      return score;
     }
   }
 
   function crashCarrot() {
-    //var score = 0;
-    for (var i = 0; i < carrotArray.length; i++) {
-      var carrot = carrotArray[i];
-      if (intersect(monster, carrot)) {
-        ctx.drawImage(
-          imgSad,
-          monster.x,
-          monster.y,
-          monster.height,
-          monster.width
-        );
-        carrotArray.splice(i, 1);
-        // ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
-        if (!carrot.counted) {
-          score = score - 1;
-          carrot.counted = true;
-          huh.play();
+    if (heartsArray.length > 0) {
+      for (var i = 0; i < carrotArray.length; i++) {
+        var carrot = carrotArray[i];
+        if (intersect(monster, carrot)) {
+          img = imgSad;
+          carrotArray.splice(i, 1);
+          heartsArray.splice(0, 1);
+          if (!carrot.counted) {
+            score = score - 1;
+            carrot.counted = true;
+            huh.play();
+          }
         }
       }
-      //console.log(score);
+      if (heartsArray.length > 0 && score >= 50) {
+        ctx.clearRect(0, 0, 600, 650);
+        gameWon();
+        return score;
+      } else if (heartsArray.length <= 0) {
+        ctx.clearRect(0, 0, 600, 650);
+        gameOver();
+        return score;
+      }
     }
   }
 
@@ -307,9 +452,9 @@ window.onload = function() {
     var monsterright = monster.x + monster.width;
     var monsterbottom = monster.y + monster.height;
 
-    var objectleft = object.x;
+    var objectleft = object.x + 30;
     var objecttop = object.y;
-    var objectright = object.x + object.width;
+    var objectright = object.x + object.width - 20;
     var objectbottom = object.y + object.height;
     return !(
       monsterleft > objectright ||

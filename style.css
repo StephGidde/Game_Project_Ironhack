@@ -1,8 +1,16 @@
 body {
   padding: 0;
   text-align: center;
-  background-image: url("images/CV_BG_01.png");
+  background-image: url("images/astronomy-dark-evening-957061.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   font-family: "Fira Sans", sans-serif;
+}
+@font-face {
+  /* font-family: "Digi";
+  src: url("fonts/ds-digib.ttf"); */
+  font-family: "haunted";
+  src: url("fonts/HauntedHouse.ttf");
 }
 .game-intro {
   float: left;
@@ -10,6 +18,7 @@ body {
 }
 .game-intro p {
   font-size: 18px;
+  font-family: "haunted";
   color: white;
 }
 .logo-img {
@@ -18,6 +27,7 @@ body {
 }
 .arrows-img {
   width: 150px;
+  margin-bottom: 25px;
 }
 body button {
   font-size: 30px;
@@ -33,30 +43,33 @@ body button {
   text-align: center;
   float: left;
   width: 60%;
-  height: 500px;
+  height: 640px;
   z-index: 1;
   position: relative;
 }
 #game {
-  border: 5px solid purple;
-  opacity: 0.8;
+  /* border: 5px solid grey; */
   background-color: white;
   z-index: 2;
-  background-image: url("images/CV_BG_01.png");
-  background-size: 800px 650px;
+  background-image: url("images/CV_BG_02.png");
+  background-repeat: repeat-y;
+  background-size: 950px 650px;
+  background-position: -330px 80%;
 }
 .game-score {
   float: left;
   width: 20%;
+  font-family: "Digi";
 }
 #player-name {
-  font-size: 20px;
+  font-size: 50px;
   padding: 10px;
   color: white;
+  display: block;
 }
 h1 {
   font-size: 80px;
-  font-family: "Allerta Stencil", sans-serif;
+  font-family: "haunted", sans-serif;
 }
 nav {
   color: white;
@@ -68,12 +81,14 @@ nav {
   border-color: white;
   background-color: white;
   font-size: 80px;
+  font-family: "haunted";
   text-align: center;
   font-weight: lighter;
   padding: 5px auto;
 }
 #your-score {
   font-size: 30px;
+  font-family: "haunted";
   color: white;
   text-shadow: 2px 2px 4px #000000;
 }
@@ -81,15 +96,34 @@ nav {
   display: inline-block;
   z-index: 3;
   /* background-color: white; */
-
   position: absolute;
-  margin-top: 30%;
+  margin-top: 20%;
   display: none;
-}
-input {
   font-family: "Fira Sans", sans-serif;
+  font-size: 20px;
+}
+
+/* NEU */
+.characInput {
+  margin-left: 5%;
+}
+
+#playerNameInput {
+  margin: 20px;
 }
 
 #start-button {
   display: inherit;
+  margin: 5%;
+  font-family: "haunted";
+  font-size: 45px;
+}
+.divAddLife {
+  float: left;
+  width: 20%;
+  font-family: "Helvetica";
+  color: white;
+  font-size: 25px;
+  margin-top: 200px;
+  height: 30px;
 }
