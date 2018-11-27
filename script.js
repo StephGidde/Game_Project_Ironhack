@@ -1,5 +1,7 @@
 window.onload = function() {
   $("#addLife").hide();
+  $("#player-name").hide();
+
   var canvas = $("#game")[0];
   var ctx = canvas.getContext("2d");
   var frameCounter = 0;
@@ -9,9 +11,11 @@ window.onload = function() {
   var heartsArray = [];
   var specialArray = [];
   var score = 0;
+  var gameDone = false;
 
   function gameOver() {
-    ctx.font = "100px Verdana";
+    gameDone = true;
+    ctx.font = "90px haunted";
     // Create gradient
     var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
     gradient.addColorStop("0", "magenta");
@@ -19,14 +23,14 @@ window.onload = function() {
     gradient.addColorStop("1.0", "red");
     // Fill with gradient
     ctx.fillStyle = gradient;
-    ctx.fillText("Game Over", 10, canvas.height / 2);
+    ctx.fillText("Game Over", 15, canvas.height / 2);
     gameover.play();
     music.pause();
-    // window.cancelAnimationFrame(updateCanvas);
   }
 
   function gameWon() {
-    ctx.font = "100px Verdana";
+    gameDone = true;
+    ctx.font = "100px haunted";
     // Create gradient
     var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
     gradient.addColorStop("0", "magenta");
@@ -34,10 +38,9 @@ window.onload = function() {
     gradient.addColorStop("1.0", "red");
     // Fill with gradient
     ctx.fillStyle = gradient;
-    ctx.fillText("You Win!", 10, canvas.height / 2);
+    ctx.fillText("You Win!", 45, canvas.height / 2);
     catchspecial.play();
     music.pause();
-    // window.cancelAnimationFrame(updateCanvas);
   }
 
   //images
@@ -50,7 +53,7 @@ window.onload = function() {
   imgSad.src = 0;
   // "images/CV_Vampi_Sad_01.png";
 
-  var imgCandy = new Image(); //jeweils die images für candy, apple und carrot
+  var imgCandy = new Image(); //images for candy, apple and carrot
   imgCandy.src = "images/CV_Cupcake_01.png";
 
   var imgCarrot = new Image();
@@ -187,6 +190,7 @@ window.onload = function() {
     var playerName = $("#playerNameInput").val();
     selectedCharacter();
     if (playerName != 0) {
+      $("#player-name").show();
       $("#player-name").html(playerName);
 
       $("#start-button").hide();
@@ -250,7 +254,7 @@ window.onload = function() {
         candyArray[i].height,
         candyArray[i].width
       );
-      // ctx.strokeRect( Box um zu sehen wo Monster und Candy sich berühren
+      // ctx.strokeRect( Box to see where monster and obstacles touch
       //   candyArray[i].x,
       //   (candyArray[i].y += 1),
       //   candyArray[i].height,
@@ -299,7 +303,7 @@ window.onload = function() {
     }
 
     //hier wird Special eingefügt
-    if (frameCounter % 500 == 0) {
+    if (frameCounter % 1300 == 0) {
       var special = new Special();
       specialArray.push(special);
       $("#addLife").show();
@@ -319,7 +323,7 @@ window.onload = function() {
     crashCarrot();
     crashSpecial();
     $("#score").text(score);
-    window.requestAnimationFrame(updateCanvas);
+    if (!gameDone) window.requestAnimationFrame(updateCanvas);
   }
 
   function crashCandy() {
@@ -330,7 +334,7 @@ window.onload = function() {
           img = happyMonster;
           candyArray.splice(i, 1);
           if (!candy.counted) {
-            score = score + 1;
+            score = score + 50;
             candy.counted = true;
             yay.play(); // positiver Sound wird abgespielt wenn Monster candy bekommt
           }
@@ -386,7 +390,6 @@ window.onload = function() {
           appleArray.splice(i, 1);
           heartsArray.splice(0, 1);
           // ctx.strokeRect(monster.x, monster.y, monster.height, monster.width);
-          //huh.play();
           if (!apple.counted) {
             score = score - 1;
             apple.counted = true;
