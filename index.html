@@ -23,8 +23,11 @@
   <body>
     <nav><h1>Happy Monster</h1></nav>
     <div class="game-intro">
-      <img id="player-character" src=./images/CV_Vampi_Happy_01.png alt=""
-      class="logo-img" />
+      <img class="logo-img" id="player-character1"
+      src=./images/CV_Vampi_Happy_01.png alt="" /> <img class="logo-img"
+      id="player-character2" src=./images/Vampi_Green_Happy.png alt="" /> <img
+      class="logo-img" id="player-character3" src=./images/Vampi_Red_Happy.png
+      alt="" />
 
       <button id="start-button" class="btn-info">Start Game</button>
       <span id="player-name"></span> <span id="player-character"></span>
@@ -33,10 +36,9 @@
     </div>
     <div id="game-board">
       <div id="prompt-box" class="input-group mb-3 alert alert-info">
-        <span style="font-size:40px">What is your Name?</span><br />
+        <span style="font-size:40px">What is your name?</span><br />
         <input id="playerNameInput" type="text" /><br />
         <span style="font-size:40px">Choose a character</span><br />
-
         <label class="characInput">
           <input type="radio" name="character" value="Andrew" /> Andrew <img
           src=images/CV_Vampi_Happy_01.png width=60px height=80px>
@@ -45,9 +47,21 @@
           <input type="radio" name="character" value="Hendrik" /> Hendrik <img
           src=images/Vampi_Red_Happy.png width=60px height=80px>
         </label>
-
-        <input class="characInput" type="radio" name="character" value="Jen" />
-        Jen<img src=images/Vampi_Green_Happy.png width=60px height=80px><br />
+        <label class="characInput">
+          <input type="radio" name="character" value="Jen" /> Jen <img
+          src=images/Vampi_Green_Happy.png width=60px height=80px> </label
+        ><br />
+        <hr />
+        <div id="intro">
+          <span>MONSTER LIKES</span><img class=
+          "intro-img"src=images/CV_Cupcake_01.png width=40px height=60px> <br />
+          <span>MONSTER HATES</span><img class=
+          "intro-img"src=images/CV_Carrot_02.png width=40px height=60px>
+          <span>AND</span><img class= "intro-img"src=images/CV_Apple_01.png
+          width=40px height=60px> <br />
+          <span>COLLECT LITTLE MONSTERS TO RECEIVE AN EXTRA</span> <img class=
+          "intro-img"src=images/Heart_01.png width=40px height=60px> <br />
+        </div>
         <button
           id="submit"
           class="btn btn-outline-secondary"

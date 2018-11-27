@@ -65,21 +65,6 @@ window.onload = function() {
   var imgSpecial = new Image();
   imgSpecial.src = 0;
 
-  var imgBoom1 = new Image();
-  imgBoom1 = "images/Boom_00000.png";
-
-  var imgBoom2 = new Image();
-  imgBoom1 = "images/Boom_00001.png";
-
-  var imgBoom3 = new Image();
-  imgBoom1 = "images/Boom_00002.png";
-
-  var imgBoom4 = new Image();
-  imgBoom1 = "images/Boom_00003.png";
-
-  var imgBoom5 = new Image();
-  imgBoom1 = "images/Boom_00004.png";
-
   //create monster
   var monster = {
     lives: 5,
@@ -162,8 +147,8 @@ window.onload = function() {
     constructor() {
       this.x = Math.floor(Math.random() * canvas.width - 100); // -100 (Breite des Bildes) weil sonst außerhalb des Bildrandes
       this.y = Math.floor(Math.random() * -100);
-      this.height = 32;
-      this.width = 46;
+      this.height = 64;
+      this.width = 92;
       this.counted = false;
     }
   }
@@ -193,7 +178,8 @@ window.onload = function() {
         //special monster on canvas
         imgSpecial.src = $(character[i])
           .next()
-          .attr("src");
+          .attr("src")
+          .replace("Happy", "Glow");
       }
     }
   }
@@ -350,7 +336,7 @@ window.onload = function() {
           }
         }
       }
-      if (heartsArray.length > 0 && score >= 50) {
+      if (heartsArray.length >= 0 && score >= 50) {
         ctx.clearRect(0, 0, 600, 650);
         gameWon();
         return score;

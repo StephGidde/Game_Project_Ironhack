@@ -22,8 +22,7 @@ body {
   color: white;
 }
 .logo-img {
-  width: 250px;
-  padding: 50px;
+  width: 90px;
 }
 .arrows-img {
   width: 150px;
@@ -66,6 +65,7 @@ body button {
   padding: 10px;
   color: white;
   display: block;
+  font-family: "haunted";
 }
 h1 {
   font-size: 80px;
@@ -99,7 +99,7 @@ nav {
   position: absolute;
   margin-top: 20%;
   display: none;
-  font-family: "Fira Sans", sans-serif;
+  font-family: "haunted";
   font-size: 20px;
 }
 
