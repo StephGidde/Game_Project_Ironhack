@@ -112,7 +112,7 @@ window.onload = function() {
   //create candy
   class Candy {
     constructor() {
-      this.x = Math.floor(Math.random() * canvas.width - 100);
+      this.x = Math.floor(Math.random() * canvas.width - 40);
       this.y = Math.floor(Math.random() * -100);
       this.height = 40;
       this.width = 50;
@@ -124,7 +124,7 @@ window.onload = function() {
   //create carrot
   class Carrot {
     constructor() {
-      this.x = Math.floor(Math.random() * canvas.width - 100); // -100 (Breite des Bildes) weil sonst außerhalb des Bildrandes
+      this.x = Math.floor(Math.random() * canvas.width - 50); // -100 (Breite des Bildes) weil sonst außerhalb des Bildrandes
       this.y = Math.floor(Math.random() * -100);
       this.height = 50;
       this.width = 80;
@@ -136,7 +136,7 @@ window.onload = function() {
   //create apple
   class Apple {
     constructor() {
-      this.x = Math.floor(Math.random() * canvas.width - 100); // -100 (Breite des Bildes) weil sonst außerhalb des Bildrandes
+      this.x = Math.floor(Math.random() * canvas.width - 50); // -100 (Breite des Bildes) weil sonst außerhalb des Bildrandes
       this.y = Math.floor(Math.random() * -100);
       this.height = 50;
       this.width = 50;
@@ -148,7 +148,7 @@ window.onload = function() {
   //create Special
   class Special {
     constructor() {
-      this.x = Math.floor(Math.random() * canvas.width - 100); // -100 (Breite des Bildes) weil sonst außerhalb des Bildrandes
+      this.x = Math.floor(Math.random() * canvas.width - 50); // -100 (Breite des Bildes) weil sonst außerhalb des Bildrandes
       this.y = Math.floor(Math.random() * -100);
       this.height = 64;
       this.width = 92;
@@ -306,7 +306,7 @@ window.onload = function() {
     if (frameCounter % 1300 == 0) {
       var special = new Special();
       specialArray.push(special);
-      $("#addLife").show();
+      //$("#addLife").show();
     }
     for (var i = 0; i < specialArray.length; i++) {
       ctx.drawImage(
@@ -334,7 +334,7 @@ window.onload = function() {
           img = happyMonster;
           candyArray.splice(i, 1);
           if (!candy.counted) {
-            score = score + 50;
+            score = score + 1;
             candy.counted = true;
             yay.play(); // positiver Sound wird abgespielt wenn Monster candy bekommt
           }
